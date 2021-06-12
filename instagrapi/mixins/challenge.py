@@ -147,7 +147,7 @@ class ChallengeResolveMixin:
         choice = CHOICE_EMAIL
         result = session.post(challenge_url, {"choice": choice})
         result = result.json()
-        for retry in range(8):
+        for _ in range(8):
             time.sleep(WAIT_SECONDS)
             try:
                 # FORM TO ENTER CODE
@@ -177,7 +177,7 @@ class ChallengeResolveMixin:
             "VerifySMSCodeForm",
             "VerifySMSCodeFormForSMSCaptcha",
         ), result
-        for retry_code in range(5):
+        for _ in range(5):
             for attempt in range(1, 11):
                 code = self.challenge_code_handler(self.username, choice)
                 if code:

@@ -31,13 +31,10 @@ class InstagramIdCodec:
         """Covert a shortcode to a numeric value."""
         base = len(alphabet)
         strlen = len(shortcode)
-        num = 0
-        idx = 0
-        for char in shortcode:
-            power = strlen - (idx + 1)
-            num += alphabet.index(char) * (base ** power)
-            idx += 1
-        return num
+        return sum(
+            alphabet.index(char) * base ** (strlen - (idx + 1))
+            for idx, char in enumerate(shortcode)
+        )
 
 
 def generate_signature_old(data):
@@ -62,10 +59,7 @@ def json_value(data, *args, default=None):
     cur = data
     for a in args:
         try:
-            if isinstance(a, int):
-                cur = cur[a]
-            else:
-                cur = cur.get(a)
+            cur = cur[a] if isinstance(a, int) else cur.get(a)
         except (IndexError, KeyError, TypeError, AttributeError):
             return default
     return cur

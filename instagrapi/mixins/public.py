@@ -240,8 +240,7 @@ class TopSearchesPublicMixin:
             "rank_token": 0.7763938004511706,
             "include_reel": "true",
         }
-        response = self.public_request(url, params=params, return_json=True)
-        return response
+        return self.public_request(url, params=params, return_json=True)
 
 
 class ProfilePublicMixin:

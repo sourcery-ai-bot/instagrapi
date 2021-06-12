@@ -61,13 +61,14 @@ class PreLoginFlowMixin:
         """
         data = {
             "android_device_id": self.device_id,
-            "client_contact_points": "[{\"type\":\"omnistring\",\"value\":\"%s\",\"source\":\"last_login_attempt\"}]" % self.username,
+            "client_contact_points": "[{\"type\":\"omnistring\",\"value\":\"%s\",\"source\":\"last_login_attempt\"}]"
+            % self.username,
             "phone_id": self.phone_id,
             "usages": '["account_recovery_omnibox"]',
             "device_id": self.device_id,
+            "_csrftoken": self.token,
         }
-        # if login is False:
-        data["_csrftoken"] = self.token
+
         return self.private_request(
             "accounts/get_prefill_candidates/", data, login=login
         )
@@ -91,7 +92,7 @@ class PreLoginFlowMixin:
             "server_config_retrieval": "1",
             "experiments": config.LOGIN_EXPERIMENTS,
         }
-        if login is False:
+        if not login:
             data["_uuid"] = self.uuid
             data["_uid"] = self.user_id
             data["_csrftoken"] = self.token
@@ -116,7 +117,7 @@ class PreLoginFlowMixin:
             "id": self.uuid,
             "server_config_retrieval": "1",
         }
-        if login is False:
+        if not login:
             data["_uid"] = self.user_id
             data["_uuid"] = self.uuid
             data["_csrftoken"] = self.token
@@ -202,7 +203,7 @@ class PostLoginFlowMixin:
         if "is_pull_to_refresh" in options:
             data["reason"] = "pull_to_refresh"
             data["is_pull_to_refresh"] = "1"
-        elif "is_pull_to_refresh" not in options:
+        else:
             data["reason"] = "cold_start_fetch"
             data["is_pull_to_refresh"] = "0"
 

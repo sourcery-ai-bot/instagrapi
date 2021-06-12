@@ -327,11 +327,10 @@ class MediaMixin:
                 "igtv_ads_toggled_on": "0",
             }
         self._medias_cache.pop(self.media_pk(media_id), None)  # clean cache
-        result = self.private_request(
+        return self.private_request(
             f"media/{media_id}/edit_media/",
             self.with_default_data(data),
         )
-        return result
 
     def media_user(self, media_pk: int) -> UserShort:
         """

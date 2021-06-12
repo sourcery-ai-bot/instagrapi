@@ -155,9 +155,10 @@ class CommentMixin:
         """
         media_id = self.media_id(media_id)
         data = {
-            "comment_ids_to_delete": ','.join([str(pk) for pk in comment_pks]),
-            "container_module": "self_comments_v2_newsfeed_you"
+            "comment_ids_to_delete": ','.join(str(pk) for pk in comment_pks),
+            "container_module": "self_comments_v2_newsfeed_you",
         }
+
         result = self.private_request(
             f"media/{media_id}/comment/bulk_delete/",
             self.with_action_data(data)

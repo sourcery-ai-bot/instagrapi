@@ -5,7 +5,7 @@ class ClientError(Exception):
 
     def __init__(self, *args, **kwargs):
         args = list(args)
-        if len(args) > 0:
+        if args:
             self.message = str(args.pop(0))
         for key in list(kwargs.keys()):
             setattr(self, key, kwargs.pop(key))
